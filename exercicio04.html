@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercicio 04</title>
+</head>
+<body>
+    <span>Nome do produto: <input type="text" id="in_nome"></span> <span>Preço de compra: <input type="text" id="in_preco"></span> <button onclick="cadastrar()">Cadastrar</button> <button onclick="relatorio()">Relatório de estoque</button>
+    <br><div id="div_relatorio"></div>
+</body>
+</html>
+<script>
+    var compras = []
+    function cadastrar(){
+        var nome = in_nome.value
+        var preco = Number(in_preco.value)
+
+        var produto = {
+            nome,
+            preco
+        }
+
+        compras.push(produto)
+
+
+    }
+    function relatorio(){
+        div_relatorio.innerHTML = ""
+
+        var totalProduto = compras.length
+        var compraAtual = ``
+        for(var i = 0; i < compras.length; i++){
+            compraAtual = `
+            Total de produtos: ${totalProduto} <br><br>
+            Produto ${i+1}: ${compras[i].nome}<br>
+            Preço de compra: R$${compras[i].preco}. Vender por R$${((compras[i].preco) * 1.25).toFixed(2)} <br><br>
+            `
+
+            div_relatorio.innerHTML += compraAtual
+        }
+
+    }
+</script>

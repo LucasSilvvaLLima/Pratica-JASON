@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercicio 06</title>
+</head>
+<body>
+    <span>Digite um número qualquer: </span><input type="text" id="in_numero"> <button onclick="analisar()">Analisar histórico</button>
+    <div id="div_resultado"></div>
+</body>
+</html>
+<script>
+    var numeros = []
+    var maiorNumero = 0
+    var menorNumero = 0 
+    function analisar(){
+        div_resultado.innerHTML = ""
+        var numero = Number(in_numero.value)
+        maiorNumero = Number(in_numero.value)
+        menorNumero = Number(in_numero.value)
+        var listaNumeros = ``
+        var MaiorMenor = ``
+        
+        numeros.push(numero)
+        for(var i = 0; i < numeros.length; i++){
+            if(numeros[i] > maiorNumero){
+                maiorNumero = numeros[i]
+            }
+            if(numeros[i] < menorNumero){
+                menorNumero = numeros[i]
+            }
+            listaNumeros += `${i + 1}° Número: ${numeros[i]}<br>`
+        }
+        
+        MaiorMenor = `Maior: ${maiorNumero}<br>Menor: ${menorNumero}`
+        
+        div_resultado.innerHTML =  listaNumeros + MaiorMenor
+        in_numero.value = ``
+    }
+</script>

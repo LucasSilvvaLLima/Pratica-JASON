@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercicio 08</title>
+</head>
+<style>
+    .form {
+        padding-left: 100px;
+        padding-top: 50px;
+        color: rgb(224, 75, 75);
+        font-family: Arial;
+        font-size: 50px;
+        display: flex;
+        flex-direction: column;
+    }
+
+    input {
+        padding-top: 10px;
+        height: 50px;
+        width: 500px;
+    }
+
+    .btns {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+
+    }
+
+    .btn-pesquisar {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        padding-left: 110px;
+    }
+
+    button {
+        background-color: rgba(105, 90, 205, 0);
+        border-color: rgb(215, 115, 8);
+        height: 50px;
+        width: 200px;
+        color: rgb(215, 115, 8);
+        font-size: 30px;
+    }
+
+    b {
+        padding-right: 30px;
+    }
+
+    .in_n1 {
+        width: 250px;
+        font-size: 35px;
+    }
+
+    .in_n1,
+    input::placeholder {
+        color: rgb(183, 121, 6);
+    }
+
+    .in_n2 {
+        width: 250px;
+        font-size: 35px;
+    }
+
+    .in_n2,
+    input::placeholder {
+        color:rgb(183, 121, 6);
+    }
+</style>
+
+<body>
+    <div id="div_part1">
+        <div class="form">
+            <span>Análise de performace de alunos - Registro</span><br>
+            <span>Entre com o nome do Aluno: <input type="text" id="in_nome"></span><br>
+            <span>Entre com a nota da AC-1: <input type="text" id="in_nota1"></span><br>
+            <span>Entre com a nota da AC-2: <input type="text" id="in_nota2"></span><br>
+            <span>Entre com a nota da AC-3: <input type="text" id="in_nota3"></span>
+            <br><br>
+        </div>
+        <div class="btns">
+            <button onclick="registrar()">Registrar</button><b></b>
+            <button onclick="analisar()">Analisar</button>
+        </div>
+
+        <div id="div_resultado"></div>
+    </div>
+
+</body>
+
+</html>
+<script>
+
+    var alunos = []
+    var notasIntervalo = []
+    var maiorNota = 0
+    var menorNota = 0
+    var mediaNotas = 0
+    function registrar() {
+        div_resultado.innerHTML = ``
+        var nome = in_nome.value
+        var nota1 = Number(in_nota1.value)
+        var nota2 = Number(in_nota2.value)
+        var nota3 = Number(in_nota3.value)
+        var nomeValido = nome != ``
+        var notaValida = nota1 >= 0 && nota1 <= 10 && nota2 >= 0 && nota2 <= 10 && nota3 >= 0 && nota3 <= 10
+        if (!nomeValido || !notaValida) {
+            if (nome == "" && nota1 == "" && nota2 == "" && nota3 == "" ) {
+                div_resultado.innerHTML = `Preencha todos os campos`
+            } else {
+                if (!nomeValido) {
+                    div_resultado.innerHTML = `Preencha o campo Nome do Aluno<br>`
+                }
+                if (!notaValida) {
+                    div_resultado.innerHTML += `A nota do Aluno deve estar entre 0 e 10`
+                }
+            }
+        } else {
+            var aluno = {
+                nome: nome,
+                nota1: nota1,
+                nota2: nota2,
+                nota3: nota3
+            }
+
+            alunos.push(aluno)
+
+            for (var i = alunos.length - 1; i >= 0; i--) {
+                div_resultado.innerHTML += `Nome: ${alunos[i].nome}; (Nota AC-1: ${alunos[i].nota1}) (Nota AC-2: ${alunos[i].nota2}) (Nota AC-3: ${alunos[i].nota3})<br>`
+            }
+        }
+    }
+    function analisar() {
+        div_part1.innerHTML = `
+        <div class="form">
+            <span>Análise de performace de alunos - Pesquisa</span><br>
+            <span>Entre com o intervalo de notas: <input placeholder="De" type="text" id="in_n1" class="in_n1"> <input placeholder="Até" type="text" id="in_n2"class="in_n2" ></span><br>
+        </div>
+        <div class="btn-pesquisar">
+            <button onclick="pesquisar()">Pesquisar</button>
+        </div><br>
+
+        <div id="div_pesquisa"></div>
+        `
+    }
+
+    function pesquisar() {
+        div_pesquisa.innerHTML = ``
+        notasIntervalo = []
+        var de = Number(in_n1.value)
+        var ate = Number(in_n2.value)
+        maiorNota = Number(in_n1.value)
+        menorNota = Number(in_n2.value)
+
+        var mensagem = ``
+
+        var intervaloValido = de >= 0 && de <= 10 && ate >= 0 && ate <= 10
+
+        if (!intervaloValido) {
+            mensagem = "O campo De e Até devem estar entre 0 e 10"
+        }else{
+            var somaNotas = 0
+            for(var i = 0; i < alunos.length; i++){
+                if(alunos[i].nota1 >= de && alunos[i].nota1 <= ate || alunos[i].nota2 >= de && alunos[i].nota2 <= ate || alunos[i].nota3 >= de && alunos[i].nota3 <= ate){
+                    notaAtualIntervalo1 = alunos[i].nota1
+                    notaAtualIntervalo2 = alunos[i].nota2
+                    notaAtualIntervalo3 = alunos[i].nota3
+                    nomeAtualIntervalo = alunos[i].nome
+                    notasIntervalo.push(notaAtualIntervalo1)
+                    notasIntervalo.push(notaAtualIntervalo2)
+                    notasIntervalo.push(notaAtualIntervalo3)
+                    mensagem += `O aluno ${nomeAtualIntervalo} Nota AC-1 ${(notaAtualIntervalo1).toFixed(2)} Nota AC-2 ${(notaAtualIntervalo2).toFixed(2)} Nota AC-3 ${(notaAtualIntervalo3).toFixed(2)} <br>` 
+                }
+            }
+
+            for(var x = 0; x < notasIntervalo.length; x++){
+                if(notasIntervalo[x] >= maiorNota){
+                    maiorNota = notasIntervalo[x]
+                }
+                if(notasIntervalo[x] <= menorNota){
+                    menorNota = notasIntervalo[x]
+                }
+                somaNotas += notasIntervalo[x]
+            }
+
+            mediaNotas = somaNotas / notasIntervalo.length
+
+            mensagem += `<br>
+            Total de alunos registrados: ${alunos.length}<br><br>
+
+            Total de alunos listado: ${(notasIntervalo.length) / 3} (com nota no intervalo informado)<br><br>
+
+            Maior Nota = ${(maiorNota).toFixed(1)} <br><br>
+
+            Menor Nota = ${(menorNota).toFixed(1)} <br><br>
+
+            Média da Nota = ${(mediaNotas).toFixed(1)}
+            `
+
+            div_pesquisa.innerHTML = mensagem
+        }
+    }
+</script>

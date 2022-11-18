@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercicio 05</title>
+</head>
+
+<body>
+    <span>Nome do produto: <input type="text" id="in_nome"></span> <span>Preço de compra: <input type="text" id="in_preco"></span> 
+    <button onclick = "cadastrar()">Cadastrar</button> 
+    <button onclick = "relatorio()">Relatório de estoque</button>
+    <br>
+    <div id="div_relatorio"></div>
+</body>
+
+</html>
+<script>
+    var compras = []
+    var maiorPreco = 0
+    var menorPreco = 0
+    var valorTotalCompra = 0
+    var mediaCompra = 0
+
+    function cadastrar() {
+        nome = in_nome.value
+        preco = Number(in_preco.value)
+        maiorPreco = Number(in_preco.value)
+        menorPreco = Number(in_preco.value)
+       
+        var produto = {
+            nome: nome,
+            preco: preco
+        }
+
+        compras.push(produto)
+
+        in_nome.value = ``
+        in_preco.value = ``
+    }
+
+    function relatorio() {
+        div_relatorio.innerHTML = ""
+
+        var totalProdutoComprados = compras.length
+        var compraAtual = ``
+        var nomeMaisCaro = ``
+        var nomeMaisBarato = ``
+        
+        
+        for (var x = 0; x < compras.length; x++) {
+            valorTotalCompra += compras[x].preco
+            compraAtual += `
+                Produto ${x + 1}: ${compras[x].nome}<br>
+                Preço de compra: R$${compras[x].preco}. Vender por R$${(compras[x].preco * 1.25).toFixed(2)} <br><br>
+            `
+            if (compras[x].preco >= maiorPreco) {
+                maiorPreco = compras[x].preco
+                nomeMaisCaro = compras[x].nome
+            }
+            if (compras[x].preco <= menorPreco) {
+                menorPreco = compras[x].preco
+                nomeMaisBarato = compras[x].nome
+            }
+        }
+
+        mediaCompra = valorTotalCompra / totalProdutoComprados
+    
+        div_relatorio.innerHTML += `Total de produtos: ${totalProdutoComprados} <br><br>${compraAtual}`
+        div_relatorio.innerHTML += `<br>
+                                    Nome produto mais caro: ${nomeMaisCaro}<br>
+                                    Nome produto mais barato: ${nomeMaisBarato}<br>
+                                    Soma dos preços de todos Produtos: ${valorTotalCompra}<br>
+                                    Média da compra: ${mediaCompra}`
+    }
+</script>
